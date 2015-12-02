@@ -1,10 +1,10 @@
+import sbt._
+
 name := "reactive-spark"
 
 version in ThisBuild := "latest"
 
 sourcesInBase := false
-
-scalaVersion in ThisBuild := "2.11.7"
 
 lazy val root = project.in(file("."))
   .aggregate(consumer, producer)
