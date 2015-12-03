@@ -1,7 +1,6 @@
 # Reactive spark streaming example
 
-
-## Step by step instructions
+This is a fully dockerized Spark streaming example using a Kafka queue to explore the new back-pressure feature introduced in Spark 1.5.
 
 * Install docker-machine & docker-compose (require >= 1.5.1)
 
@@ -35,5 +34,20 @@
     ```
     sbt producer/docker:publishLocal
     docker-compose up producer
+    ```
+
+* Tweak the producer settings in `docker-compose.yml` and observe how your *processing time* / *processing delay* changes.<br>
+  Your Spark streaming UI should be [here](http://master:4040/streaming/), but can always be found on the [Spark master UI](http://master:8080/).
+    * `PRODUCER_RATE`: the event rate
+    * `PRODUCER_MIN_DELAY`: the min. processing weight of the produced messages
+    * `PRODUCER_MAX_DELAY`: the max. processing weight of the produced messages
+
+    ```
+    docker-compose up producer
+    ```
+
+* Tweak the Spark streaming settings in `SparkConsumer.scala` and resubmit the job.
+    ```
+    sbt consumer/assembly consumer/sparkSubmit
     ```
 

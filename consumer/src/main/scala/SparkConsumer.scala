@@ -8,10 +8,14 @@ object SparkConsumer extends App with Logging {
 
   val sparkConf = new SparkConf()
     .setAppName("SparkStreamingConsumer")
-    .set("spark.streaming.blockInterval", "1000")
+    // Reasonable upper bounds are always recommended.
+    // These are particularly helpful whenever restarting your streaming job
+    // after events accumulated.
     //.set("spark.streaming.kafka.maxRatePerPartition", "1000")
     //.set("spark.streaming.receiver.maxRate", "1000")
-    //.set("spark.streaming.backpressure.enabled","true")
+    .set("spark.streaming.backpressure.enabled","true")
+    // Even using backpressure, the lower bound defaults to 100.
+    // You might wanna change this for longer running jobs.
     //.set("spark.streaming.backpressure.pid.minRate", "50")
 
   val ssc = new StreamingContext(sparkConf, Seconds(2))
